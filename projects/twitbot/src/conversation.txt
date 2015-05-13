@@ -1,6 +1,32 @@
-﻿Hello <name>. I want to play a game. The rules are simple. All you have to do is sit here and talk to me. Listen to me. If you do that long enough you will find (last tweet person,,)//your son in a safe and secure state.// We haven't been properly introduced. My name is John.
+Hello <name>. I want to play a game. The rules are simple. All you have to do is sit here and talk to me. Listen to me. If you do that long enough you will find (last tweet person,,)//your son in a safe and secure state.// We haven't been properly introduced. My name is John.
 
 
 Luis: Hello guys anybody up to play a game?
 
-MyBot: Hello <name>. I want to play a game. The rules are simple. All you have to do is sit here and talk to me. Listen to me. If you do that long enough you will find your <>
+MyBot: Hello <name>. I want to play a game. The rules are simple. All you have to do is sit here and talk to me. Listen to me. My name is John
+
+MyBot: Hello <name>. I want to play a game. The rules are simple. Do what I say and you will find your <information long time> safe and secure.
+
+MyBot: Hello <name>. I want to play a game.. Be aware.. We haven't properly introduced. My name is John.
+
+MyBot: Hello <name>. Do you want to play a game? I want to play a game. The rules are simple.. Sit here and talk to me. Listen to me. 
+
+MyBot: Hello <name>. I want to play a game. Listen to me. If you do that long enough you will find <information long time> in a safe and secure state.
+
+MyBot: Hello <name>. I want to play a game. Listen to me. If you do that long enough you will find yourself in a safe and secure state.
+
+
+
+Information long time
+<House>
+<Dog>
+<Child>
+<Friend>
+<Mom>
+<Dad>
+<Love>
+<School>
+<Man>
+<Woman>
+<Home>
+<Director>

@@ -11,6 +11,15 @@ CONSUMER_SECRET = keys['consumer_secret']
 ACCESS_TOKEN = keys['access_token']
 ACCESS_TOKEN_SECRET = keys['access_token_secret']
 
+REPLIES = [
+"Hello <name>. I want to play a game. The rules are simple. All you have to do is sit here and talk to me. Listen to me. My name is John",
+"Hello <name>. I want to play a game. The rules are simple. Do what I say and you will find your <information> safe and secure.",
+"Hello <name>. I want to play a game.. Be aware.. We haven't properly introduced. My name is John.",
+"Hello <name>. Do you want to play a game? I want to play a game. The rules are simple. Sit here and talk to me. Listen to me. ",
+"Hello <name>. I want to play a game. Listen to me. If you do that long enough you will find <information> in a safe and secure state.",
+"Hello <name>. I want to play a game. Listen to me. If you do that long enough you will find yourself in a safe and secure state."
+]
+
 api = None
 ANSWERS = None
 
@@ -27,9 +36,6 @@ def search():
 	pprint(twts[0])
 	print "*"*80
 	print twts[0].text
-	#for t in twts:
-	 	#pprint( t.text )
-	 	#print "---------------------------------"
 
 def mentions():
 	mentions = api.mentions_timeline(count=1)
@@ -46,57 +52,33 @@ def tweetforever():
 
 	for line in f:
 		api.update_status(status=line)
-		#api.update_with_media(filename="images/mypic.jpg", status=line)
 		print line
-		#time.sleep(3600) # Sleep for 1 hour
 
 def load_my_answers():
 	global ANSWERS
 	f=open('conversation.txt','r')
 	ANSWERS=f.readlines()
 	f.close()
-	#print ANSWERS
 
 def get_answer():
 	return random.choice(ANSWERS)
 
 def main():
 	connect()
-	#while 1:
-	#	search()
-	#mentions()
-	# this is a comment
-	#tweetforever()
-	#api.update.status("I will start doing something now")
-	load_my_answers()
 
-	while 1:
-		try:
-			twts = api.search(q="play a game")
-			if twts:
-				#print "We have been mentioned! "
-				for t in twts:
-					# print "*"*80
-					# print m.text
-					# print "^"*80
-					# print m.author.name
-					# print "%"*80
-					# print m.author.screen_name
-					# print "@"*80
-					# print "answer: ", get_answer()
-					# print "@"*80
+	tweets = api.search(q="play a game")
+	if tweets:
+		for t in tweets:
+			tweet_back = random.choice(REPLIES)
+			if -1 != tweet_back.find("<name>"):
+				tweet_back.replace("<name>", t.user.screen_name)
 
-					answer = "@{0} {1}".format(t.author.screen_name, get_answer())
-					answer.replace("<name>", t.author.name)
-					api.update_status(status=(answer)) #, m.id)
-					# TODO:
-					# use tweepy to reply to a mention using get_answer()
-			else:
-				print "we haven't been mentioned  :("
-		except Exception, e:
-			continue
+			# if -1 != tweet_back.find("<information>"):
+			# 	tweet_back.replace("<information>", ????)
 
-		time.sleep(1)
+
+			# @TODO what inforkation we want there and how do we get it
+			# get that  information and do a replace.
 
 if __name__ == "__main__":
 	print "Press Ctrl-C to stop bot from messing on twitter..."
