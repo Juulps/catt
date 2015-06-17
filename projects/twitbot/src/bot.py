@@ -16,7 +16,7 @@ REPLIES = [
 "Hello <name>. I want to play a game. The rules are simple. Do what I say and you will find your <information> safe and secure.",
 "Hello <name>. I want to play a game.. Be aware.. We haven't properly introduced. My name is John.",
 "Hello <name>. Do you want to play a game? I want to play a game. The rules are simple. Sit here and talk to me. Listen to me. ",
-"Hello <name>. I want to play a game. Listen to me. If you do that long enough you will find <information> in a safe and secure state.",
+"Hello <name>. I want to play a game. Listen to me. If you do that long enough you will find your <information> in a safe and secure state.",
 "Hello <name>. I want to play a game. Listen to me. If you do that long enough you will find yourself in a safe and secure state."
 ]
 
@@ -32,10 +32,19 @@ def connect():
 
 def search():
 	global api
-	twts = api.search(q="play a game")
-	pprint(twts[0])
-	print "*"*80
-	print twts[0].text
+
+	allresults = []
+	
+	resplayagame = api.search(q="play a game")
+	resplayinggames = api.search(q="playing games")
+	resgame = api.search(q="game")
+	
+	allresults.append(resplayagame)
+	allresults.append(resplayinggames)
+	allresults.append(resgame)
+
+	return allresults
+
 
 def mentions():
 	mentions = api.mentions_timeline(count=1)
@@ -63,22 +72,45 @@ def load_my_answers():
 def get_answer():
 	return random.choice(ANSWERS)
 
+def get_additional_info_from(who):
+	global api
+
+	last4tweets = api.user_timeline(screen_name=who, count=4)
+
+	import nltk
+
+	allnouns = []
+	for t in last4tweets:
+		tokens = nltk.word_tokenize(t.text)
+		pprint(tokens)
+		tagged = nltk.pos_tag(tokens)
+		pprint(tagged)
+		for word, tag in tagged:
+			if tag == 'NN':
+				allnouns.append(word)
+	
+	return allnouns
+
+	# find nouns in all these tweets
+
 def main():
 	connect()
 
-	tweets = api.search(q="play a game")
+	tweets = api.search(q="play a game") #search()
 	if tweets:
 		for t in tweets:
-			tweet_back = random.choice(REPLIES)
-			if -1 != tweet_back.find("<name>"):
-				tweet_back.replace("<name>", t.user.screen_name)
+			# choose a reply
+			ourreply = random.choice(REPLIES)
+			if -1 != ourreply.find("<name>"):
+				ourreply.replace("<name>", t.user.screen_name)
 
-			# if -1 != tweet_back.find("<information>"):
-			# 	tweet_back.replace("<information>", ????)
-
-
-			# @TODO what inforkation we want there and how do we get it
-			# get that  information and do a replace.
+			if -1 != ourreply.find("<information>"):
+				# WE NEED MORE INFO
+				nouns = get_additional_info_from(t.user.screen_name)
+				pprint(nouns)
+				ournoun = random.choice(nouns)
+				ourreply.replace("<information>", ournoun)
+				print "My reply: ", ourreply
 
 if __name__ == "__main__":
 	print "Press Ctrl-C to stop bot from messing on twitter..."
